@@ -132,6 +132,10 @@
     list-style: none;
     background: #fff;
   }
+  .v-select .dropdown-menu li {
+    min-height: 33px;
+  }
+
   .v-select .no-options {
     text-align: center;
   }
@@ -346,13 +350,13 @@
               aria-label="Search for option"
       >
 
-      <button 
-        v-show="showClearButton" 
-        :disabled="disabled" 
+      <button
+        v-show="showClearButton"
+        :disabled="disabled"
         @click="clearSelection"
-        type="button" 
-        class="clear" 
-        title="Clear selection" 
+        type="button"
+        class="clear"
+        title="Clear selection"
       >
         <span aria-hidden="true">&times;</span>
       </button>
@@ -428,6 +432,15 @@
        * @type {Boolean}
        */
       clearable: {
+        type: Boolean,
+        default: true
+      },
+
+      /**
+       * Can the user have a null value property?
+       * @type {Boolean}
+       */
+      allowBlank: {
         type: Boolean,
         default: true
       },
@@ -913,7 +926,7 @@
        * @return {this.value}
        */
       maybeDeleteValue() {
-        if (!this.$refs.search.value.length && this.mutableValue) {
+        if (this.allowBlank && !this.$refs.search.value.length && this.mutableValue) {
           return this.multiple ? this.mutableValue.pop() : this.mutableValue = null
         }
       },
